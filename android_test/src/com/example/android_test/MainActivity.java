@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -34,28 +35,37 @@ public class MainActivity extends Activity implements OnClickListener {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+			super.onCreate(savedInstanceState);
+			setContentView(R.layout.activity_main);
+			
+			button1 = (Button) findViewById (R.id.button1);
+			button1.setOnClickListener(this);
 		
-		button1 = (Button) findViewById (R.id.button1);
-		button1.setOnClickListener(this);
-		
-		imgButton = (ImageButton) findViewById (R.id.imageButton1);
-		imgButton.setOnClickListener(this);
-		
-		textView = (TextView) findViewById (R.id.textView1);
-		textView.setOnClickListener(this);
-		
-		button2 = (Button) findViewById (R.id.button2);
-		button2.setOnClickListener(this);
-		
-		editText = (EditText) findViewById (R.id.editText1);
-		
-		imageView = (ImageView) findViewById(R.id.imageView1);
-		imgSrc = "1.jpg";
-		setImage (imageView, imgSrc);
-		button3 = (Button) findViewById(R.id.button3);
-		button3.setOnClickListener(this);
+			imgButton = (ImageButton) findViewById (R.id.imageButton1);
+			imgButton.setOnClickListener(this);
+			
+			textView = (TextView) findViewById (R.id.textView1);
+			textView.setOnClickListener(this);
+			
+			button2 = (Button) findViewById (R.id.button2);
+			button2.setOnClickListener(this);
+			
+			editText = (EditText) findViewById (R.id.editText1);
+			
+			imageView = (ImageView) findViewById(R.id.imageView1);
+			imgSrc = "1.jpg";
+			setImage (imageView, imgSrc);
+			button3 = (Button) findViewById(R.id.button3);
+			button3.setOnClickListener(this);
+			
+		//make exception
+		try {
+			button3.setBackgroundResource(1231231231);;
+		}
+		catch (Exception e) {
+			Log.e("test", "set Error");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -65,12 +75,14 @@ public class MainActivity extends Activity implements OnClickListener {
 		return true;
 	}
 	
+	@SuppressWarnings("finally")
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.button1 :
-			Toast.makeText(MainActivity.this, "clicked hi", Toast.LENGTH_SHORT).show();
+			Toast.makeText(MainActivity.this, "Logcat 출력됨 !!!!", Toast.LENGTH_SHORT).show();
+			Log.i("test", "Logcat 출력됨 !!!!");
 			break;
 		case R.id.imageButton1 :
 			++touchCount;
@@ -92,18 +104,16 @@ public class MainActivity extends Activity implements OnClickListener {
 				imgSrc = "1.jpg";
 			}
 			setImage(imageView, imgSrc);
-			break;	
 		}
 	}
 	public void setImage (ImageView imageView, String imgSrc) {
-		InputStream ims;
 		try {
-			ims = getAssets().open(imgSrc);
+			InputStream ims = getAssets().open(imgSrc);
 			Drawable d = Drawable.createFromStream(ims, null);
 			imageView.setImageDrawable(d);
 		}
-		catch (IOException e) {
-			e.printStackTrace();
+		catch (IOException ioe) {
+			ioe.printStackTrace();
 		}
 	}
 
