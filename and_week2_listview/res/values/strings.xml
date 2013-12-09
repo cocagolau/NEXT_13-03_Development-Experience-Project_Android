@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">and_week2_listview1</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_toast_list">ToastListActivity</string>
+    <string name="title_activity_remove_list">RemoveListActivity</string>
+    <string name="title_activity_check_list">CheckListActivity</string>
+    <string name="title_activity_single_choice_list">SingleChoiceListActivity</string>
+    <string name="title_activity_multiple_choice_list">MultipleChoiceListActivity</string>
+    <string name="title_activity_activate_choice_list">ActivateChoiceListActivity</string>
+    <string name="title_activity_two_line_activate_multiple_choice">TwoLineActivateMultipleChoiceActivity</string>
+    <string name="title_activity_book">BookActivity</string>
+    <string name="title_activity_book_new">BookNewActivity</string>
+    <string name="title_activity_book_show">BookShowActivity</string>
+    <string name="title_activity_cursor_adapter">CursorAdapter</string>
+
+</resources>
