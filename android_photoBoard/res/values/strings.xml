@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">android_photoBoard</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_writing">WritingActivity</string>
+    <string name="title_activity_contents">ContentsActivity</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_jsonparsing">JSONParsingActivity</string>
+    <string name="title_activity_android_jsonparsing">AndroidJSONParsingActivity</string>
+    <string name="title_activity_single_menu_item">SingleMenuItemActivity</string>
+
+</resources>
