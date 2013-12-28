@@ -21,9 +21,9 @@
         <requestFocus />
     </EditText>
 
-    <ImageView
-        android:id="@+id/writing_imageView"
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/writing_imageBtn_btn"
+        android:layout_width="fill_parent"
         android:layout_height="200dp"
         android:src="@drawable/ic_launcher" />
 
