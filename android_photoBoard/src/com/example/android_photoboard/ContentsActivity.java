@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.example.android_photoboard.ado.Dao;
+
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,13 +18,11 @@ import android.widget.TextView;
 
 public class ContentsActivity extends Activity {
 	
-	// url to make request
-	private String url = "http://cocagola.cafe24.com/next/3rd/devExperience/dec7board.json";
 	
-	TextView writer;
-	TextView writeDate;
+	TextView author;
+//	TextView writeDate;
 	TextView title;
-	TextView content;
+//	TextView content;
 	ImageView image;
 
 	@Override
@@ -32,22 +32,23 @@ public class ContentsActivity extends Activity {
 		
 		
 		try {
-			int articleNumber = getIntent().getExtras().getInt("articleNumber");
+			int id = getIntent().getExtras().getInt("id");
+			Log.e("ContentsActicity", ".onCreate() - id: " + id);
 	
-			writer = (TextView) findViewById(R.id.contents_writerName_textView);
-			writeDate = (TextView) findViewById(R.id.contents_writeDate_textView);
+			author = (TextView) findViewById(R.id.contents_writerName_textView);
+//			writeDate = (TextView) findViewById(R.id.contents_writeDate_textView);
 			image = (ImageView) findViewById(R.id.contents_image_imageView);
 			title = (TextView) findViewById(R.id.contents_title_textView);
-			content = (TextView) findViewById(R.id.contents_content_textView);
+//			content = (TextView) findViewById(R.id.contents_content_textView);
 			
 			
 			Dao dao = new Dao (getApplicationContext());
-			Article article = dao.getArticleByArticleNumber(articleNumber);
+			Article article = dao.getArticleByArticleNumber(id);
 			
-			writer.setText(article.getWriter());
-			writeDate.setText(article.getWriteDate());
+			author.setText(article.getAuthor());
+//			writeDate.setText(article.getWriteDate());
 			title.setText(article.getTitle());
-			content.setText(article.getContent());
+//			content.setText(article.getContent());
 			
 			String img_path = getApplicationContext().getFilesDir().getPath() + "/" + article.getImgName();
 			File img_load_path = new File(img_path);

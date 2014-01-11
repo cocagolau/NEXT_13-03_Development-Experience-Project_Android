@@ -1,50 +1,49 @@
 package com.example.android_photoboard;
 
 public class Article {
-	private int articleNumber;
+	private int id;
 	private String title;
-	private String writer;
-	private String id;
-	private String content;
-	private String writeDate;
+	private String author;
 	private String imgName;
 	
-	public Article (int articleNumber, String title, String writer, String id, String content, String writeDate, String imgName) {
-		this.articleNumber = articleNumber;
-		this.title = title;
-		this.writer = writer;
+	public Article (int id, String title, String author, String imgName) {
 		this.id = id;
-		this.content = content;
-		this.writeDate = writeDate;
+		this.title = title;
+		this.author = author;
 		this.imgName = imgName;
 	}
-	
-	public int getArticleNumber() {
-		return articleNumber;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
 		return title;
 	}
 
-	public String getWriter() {
-		return writer;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public String getId() {
-		return id;
+	public String getAuthor() {
+		return author;
 	}
 
-	public String getContent() {
-		return content;
-	}
-
-	public String getWriteDate() {
-		return writeDate;
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 	public String getImgName() {
 		return imgName;
 	}
 
+	public void setImgName(String imgName) {
+		this.imgName = imgName;
+	}
+	
+	
 }

@@ -21,20 +21,24 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 public class WritingActivity extends Activity implements OnClickListener{
-
+	
 	private static final int REQUEST_PHOTO_ALBUM = 1;
+	
+	public CookieManager cookieManager;
+	
 	private String filePath;
 	private String fileName;
 	private ProgressDialog progressDialog;
 	
-	private EditText etWriter;
+	private EditText etAuthor;
 	private EditText etTitle;
-	private EditText etContent;
 	
 	private ImageButton ibPhoto;
 	private Button buUpload;
@@ -45,9 +49,13 @@ public class WritingActivity extends Activity implements OnClickListener{
 		setContentView(R.layout.activity_writing);
 		
 		try {
-			etWriter = (EditText)findViewById(R.id.writing_writerName_text);
+			CookieSyncManager.createInstance(getApplicationContext());
+			cookieManager = CookieManager.getInstance();
+			String cookie = cookieManager.getCookie(MainActivity.ACCESS_URL);
+			
+			
+			etAuthor = (EditText)findViewById(R.id.writing_writerName_text);
 			etTitle = (EditText)findViewById(R.id.writing_title_text);
-			etContent = (EditText)findViewById(R.id.writing_contents_text);
 			
 			ibPhoto = (ImageButton)findViewById(R.id.writing_imageBtn_btn);
 			ibPhoto.setOnClickListener(this);
@@ -85,6 +93,7 @@ public class WritingActivity extends Activity implements OnClickListener{
 				startActivityForResult(intent, REQUEST_PHOTO_ALBUM);
 				break;
 			case R.id.writing_writeBtn :
+				Log.e("WritingActivity", ".onClick() - writeBtn clicked");
 				final Handler HANDER = new Handler(); 
 				new Thread() {
 					public void run() {
@@ -94,17 +103,14 @@ public class WritingActivity extends Activity implements OnClickListener{
 								progressDialog = ProgressDialog.show(WritingActivity.this, "", "uploading");
 							}
 						});
-						String ID = Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-						String DATE = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.KOREA).format(new Date());
+//						String ID = Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+//						String DATE = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.KOREA).format(new Date());
 						Article article = new Article(
 								0,
 								etTitle.getText().toString(),
-								etWriter.getText().toString(),
-								ID,
-								etContent.getText().toString(),
-								DATE,
+								etAuthor.getText().toString(),
 								fileName);
-						ProxyUP proxyUP = new ProxyUP();
+						ProxyUP proxyUP = new ProxyUP(cookieManager);
 						proxyUP.uploadArticle(article, filePath);
 						
 						HANDER.post(new Runnable() {
@@ -119,7 +125,7 @@ public class WritingActivity extends Activity implements OnClickListener{
 			}
 		}
 		catch (Exception e) {
-			Log.e("WritingActivity.onClick()", "onClick Error: " + e);
+			Log.e("WritingActivity", "onClick() - Error: " + e);
 		}
 	}
 	
@@ -137,7 +143,7 @@ public class WritingActivity extends Activity implements OnClickListener{
 			}
 		}
 		catch(Exception e) {
-			Log.e("WritingActivity.onActivityResult()", "onActivityResult: " + e);
+			Log.e("WritingActivity", "onActivityResult() - error: " + e);
 		}
 	}
 	
@@ -154,7 +160,7 @@ public class WritingActivity extends Activity implements OnClickListener{
 			}
 		}
 		catch (Exception e) {
-			Log.e("WritingActivity.getRealPathUri()", "getRealPathUri Error: " + e);
+			Log.e("WritingActivity", "getRealPathUri() - Error: " + e);
 		}
 		return filePathUri;
 	}

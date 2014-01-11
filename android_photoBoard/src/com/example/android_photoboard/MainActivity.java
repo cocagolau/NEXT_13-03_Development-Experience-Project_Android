@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -20,12 +22,15 @@ import android.widget.Toast;
 import com.devspark.sidenavigation.ISideNavigationCallback;
 import com.devspark.sidenavigation.SideNavigationView;
 import com.devspark.sidenavigation.SideNavigationView.Mode;
+import com.example.android_photoboard.ado.Dao;
 
 
 
 public class MainActivity extends Activity implements OnItemClickListener, OnClickListener, ISideNavigationCallback{
 
-	public static final String ACCESS_URL = "http://10.73.44.93/~stu08/";
+	public static final String ACCESS_URL = "http://10.73.43.37:8080/";
+	
+	public CookieManager cookieManager;
 	
 	private SideNavigationView sideNavigationView;
 	
@@ -56,7 +61,7 @@ public class MainActivity extends Activity implements OnItemClickListener, OnCli
 			listView = (ListView)findViewById(R.id.photo_listView);
 		}
 		catch (Exception e) {
-			Log.e("MainActivity.onCreate()", "onCreate Error: " + e);
+			Log.e("MainActivity", "onCreate Error: " + e);
 		}
 	}
 	
@@ -69,7 +74,7 @@ public class MainActivity extends Activity implements OnItemClickListener, OnCli
 			listView();
 		}
 		catch (Exception e) {
-			Log.e("MainActivity.onResume()", "onResume Error: " + e);
+			Log.e("MainActivity", "onResume Error: " + e);
 		}
 	}
 	
@@ -101,7 +106,7 @@ public class MainActivity extends Activity implements OnItemClickListener, OnCli
 			Toast.makeText(getApplicationContext(), "Side Menu: " + text, Toast.LENGTH_SHORT).show();
 		}
 		catch (Exception e) {
-			Log.e("MainActivity.onSideNavigationItemClick()", "onClick Error: " + e);
+			Log.e("MainActivity", "onClick Error: " + e);
 		}
 	}
 	
@@ -111,7 +116,7 @@ public class MainActivity extends Activity implements OnItemClickListener, OnCli
 			getMenuInflater().inflate(R.menu.main, menu);
 		}
 		catch (Exception e) {
-			Log.e("MainActivity.onCreateOptionsMenu()", "onCreateOptionsMenu Error: " + e);
+			Log.e("MainActivity", "onCreateOptionsMenu Error: " + e);
 		}
 		return true;
 	}
@@ -127,7 +132,7 @@ public class MainActivity extends Activity implements OnItemClickListener, OnCli
 			listView.setOnItemClickListener(this);
 		}
 		catch (Exception e) {
-			Log.e("MainActivity.listView()", "listView Error: " + e);
+			Log.e("MainActivity", "listView Error: " + e);
 		}
 		
 		
@@ -138,8 +143,17 @@ public class MainActivity extends Activity implements OnItemClickListener, OnCli
 		try {
 			new Thread() {
 				public void run() {
-					Proxy proxy = new Proxy();
-					String jsonData = proxy.getJSON();
+					CookieSyncManager.createInstance(getApplicationContext());
+					cookieManager = CookieManager.getInstance();
+					String cookie = cookieManager.getCookie(MainActivity.ACCESS_URL);
+					
+					Log.i("MainActivity", "Thread() - cookie: " + cookie);
+					
+					Proxy proxy = new Proxy(cookie);
+					String url = MainActivity.ACCESS_URL+".json";
+					String jsonData = proxy.getJSON(url);
+					
+					Log.e("MainActivity", "run - jsonData: " + jsonData);
 					
 					// dao
 					Dao dao = new Dao(getApplicationContext());
@@ -154,7 +168,7 @@ public class MainActivity extends Activity implements OnItemClickListener, OnCli
 			}.start();
 		}
 		catch (Exception e) {
-			Log.e("MainActivity.refreshData()", "refreshData Error: " + e);
+			Log.e("MainActivity", "refreshData Error: " + e);
 		}
 	}
 
@@ -181,11 +195,13 @@ public class MainActivity extends Activity implements OnItemClickListener, OnCli
 	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 		try {
 			Intent contentsActivityIntent = new Intent(this, ContentsActivity.class);
-			contentsActivityIntent.putExtra("articleNumber", articleList.get(position).getArticleNumber());
+			Log.e("MainActivity", ".onItemClick() - position: " + position);
+			
+			contentsActivityIntent.putExtra("id", articleList.get(position).getId());
 			startActivity(contentsActivityIntent);
 		}
 		catch (Exception e) {
-			Log.e("MainActivity.onItemClick()", "onItemClick Error: " + e);
+			Log.e("MainActivity", ".onItemClick() - Error: " + e);
 		}
 	}
 	

@@ -8,10 +8,18 @@ import java.net.URL;
 import android.util.Log;
 
 public class Proxy {
-	public String getJSON() {
+	
+	private String cookie;
+	
+	public Proxy (String cookie) {
+		this.cookie = cookie;
+	}
+	
+	public String getJSON(String urlString) {
 		
 		try {
-			URL url = new URL (MainActivity.ACCESS_URL + "loadData.php");
+			URL url = new URL (urlString);
+			
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			
 			conn.setConnectTimeout(10 * 1000);
@@ -23,13 +31,14 @@ public class Proxy {
 			
 			conn.setRequestProperty("Cache-Control", "no-cache");
 			conn.setRequestProperty("Accept", "application/json");
+			conn.setRequestProperty("Cookie", cookie);
 			
 			conn.setDoInput(true);
+			
 			conn.connect();
 			
-			
 			int status = conn.getResponseCode();
-			Log.i("Proxy.getJSON()", "ProxyResponseCode: " + status);
+			Log.i("Proxy", ".getJson() - ProxyResponseCode: " + status);
 			
 			switch(status) {
 			case 200:
@@ -43,11 +52,13 @@ public class Proxy {
 				}
 				br.close();
 				
+				Log.i("Proxy", ".getJSON() - jsonString: " + sb.toString());
+				
 				return sb.toString();
 			}
 		}
 		catch (Exception e) {
-			Log.i("Proxy.getJSON()", "Network error: " + e.getMessage());
+			Log.i("Proxy", ".getJSON() - Network error: " + e);
 			
 		}
 		

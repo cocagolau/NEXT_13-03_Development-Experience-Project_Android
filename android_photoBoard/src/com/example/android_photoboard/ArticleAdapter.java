@@ -40,10 +40,10 @@ public class ArticleAdapter extends ArrayAdapter<Article>{
 			}
 			
 			TextView title = (TextView) row.findViewById(R.id.photo_list_row_title_text_view);
-			TextView writer = (TextView) row.findViewById(R.id.photo_list_row_subtitle_text_view);
+			TextView author = (TextView) row.findViewById(R.id.photo_list_row_subtitle_text_view);
 			
 			title.setText(articleList.get(position).getTitle());
-			writer.setText(articleList.get(position).getWriter());
+			author.setText(articleList.get(position).getAuthor());
 			
 			ImageView imageView = (ImageView) row.findViewById(R.id.photo_list_row_image_view);
 			String img_path = context.getFilesDir().getPath() + "/" + articleList.get(position).getImgName();

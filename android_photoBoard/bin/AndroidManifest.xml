@@ -3,9 +3,11 @@
     package="com.example.android_photoboard"
     android:versionCode="1"
     android:versionName="1.0" >
-    
+
     <user-permission android:name="android.permission.INTERNET" />
     <user-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -19,14 +21,7 @@
         <activity
             android:name="com.example.android_photoboard.MainActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-        
-        
         <activity
             android:name="com.example.android_photoboard.WritingActivity"
             android:label="@string/title_activity_writing" >
@@ -52,6 +47,19 @@
         <activity
             android:name="com.example.android_photoboard.SingleMenuItemActivity"
             android:label="@string/title_activity_single_menu_item" >
+        </activity>
+        <activity
+            android:name="com.example.android_photoboard.LoginActivity"
+            android:label="@string/title_activity_log" >
+                       <intent-filter>
+               <action android:name="android.intent.action.MAIN" />
+
+               <category android:name="android.intent.category.LAUNCHER" />
+           </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.android_photoboard.SignupActivity"
+            android:label="@string/title_activity_signup" >
         </activity>
     </application>
 
